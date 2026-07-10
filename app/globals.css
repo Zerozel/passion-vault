@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: hsl(222 20% 5%);
+  --color-foreground: hsl(260 20% 96%);
+  --color-surface: hsl(240 20% 10%);
+  --color-surface-elevated: hsl(240 20% 14%);
+  --color-muted: hsl(260 10% 40%);
+  --color-accent: hsl(43 45% 54%);
+  --color-accent-foreground: hsl(43 45% 10%);
+  --color-rose-subtle: hsl(357 25% 58%);
+  --color-border-subtle: hsl(240 10% 18%);
+  --color-ring: hsl(43 45% 54%);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

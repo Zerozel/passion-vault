@@ -17,7 +17,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Fetch the memory
     const { data: memory } = await supabase
       .from("memories")
       .select("*")
@@ -29,7 +28,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Memory not found" }, { status: 404 });
     }
 
-    // Check if reflection already exists
     const { data: existing } = await supabase
       .from("ai_reflections")
       .select("id")
@@ -40,17 +38,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ reflected: true });
     }
 
-    // Generate reflection
     const reflection = await generateReflection(memory.content);
 
     if (!reflection) {
       return NextResponse.json(
-        { error: "Failed to generate reflection" },
+        { error: "Gemini API call failed", details: "Check GEMINI_API_KEY in Vercel env" },
         { status: 500 }
       );
     }
 
-    // Save reflection
     const { error: insertError } = await supabase.from("ai_reflections").insert({
       memory_id: memoryId,
       user_id: userData.user.id,
@@ -62,16 +58,17 @@ export async function POST(request: Request) {
     if (insertError) {
       console.error("Failed to save reflection:", insertError);
       return NextResponse.json(
-        { error: "Failed to save reflection" },
+        { error: "Failed to save reflection", details: insertError.message },
         { status: 500 }
       );
     }
 
     return NextResponse.json({ reflected: true });
   } catch (error) {
-    console.error("Reflect error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Reflect error:", message);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Internal server error", details: message },
       { status: 500 }
     );
   }

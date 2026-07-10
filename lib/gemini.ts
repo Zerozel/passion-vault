@@ -22,7 +22,7 @@ export async function generateReflection(content: string): Promise<{
   identity_statement: string;
 } | null> {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     const prompt = `${REFLECTION_PROMPT}\n\nMemory entry:\n${content}`;
 
     const result = await model.generateContent(prompt);

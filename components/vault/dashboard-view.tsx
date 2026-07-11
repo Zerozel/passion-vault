@@ -16,6 +16,7 @@ interface DashboardViewProps {
   readyCapsule: TimeCapsule | null;
   sealedCapsules: TimeCapsule[];
   recentOpened: TimeCapsule | null;
+  displayName: string;
 }
 
 function daysUntil(date: string): number {
@@ -39,6 +40,7 @@ export function DashboardView({
   readyCapsule,
   sealedCapsules,
   recentOpened,
+  displayName,
 }: DashboardViewProps) {
   const hasEvidence = totalMemories > 0;
   const reflectedCount = recentMemories.filter((m) => m.ai_reflection).length;
@@ -49,10 +51,11 @@ export function DashboardView({
           LAYER 1 — Arrival
           ======================================== */}
       <div className="text-center pt-8 pb-4">
-        <p className="text-sm text-muted/50 tracking-wide">
-          {getGreeting()}.
+        <p className="text-lg text-muted/60 tracking-wide">
+          {getGreeting()},{" "}
+          <span className="text-foreground font-semibold">{displayName}</span>.
         </p>
-        <h2 className="text-2xl font-light text-foreground mt-2 leading-relaxed">
+        <h2 className="text-2xl font-semibold text-foreground mt-3 leading-relaxed">
           {hasEvidence
             ? "Your vault has been keeping your memories safe."
             : "Welcome to your vault. This space is yours."}

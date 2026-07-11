@@ -11,6 +11,9 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
+  // Extract display name from email
+  const displayName = userData.user.email?.split("@")[0] || "friend";
+
   const { data: vault } = await supabase
     .from("vaults")
     .select("*")
@@ -72,7 +75,7 @@ export default async function DashboardPage() {
     .lte("unlock_date", today)
     .order("unlock_date", { ascending: true })
     .limit(1)
-    .single();
+    .maybeSingle();
 
   // Sealed capsules (future unlock date)
   const { data: sealedCapsules } = await supabase
@@ -92,7 +95,7 @@ export default async function DashboardPage() {
     .eq("opened", true)
     .order("opened_at", { ascending: false })
     .limit(1)
-    .single();
+    .maybeSingle();
 
   return (
     <DashboardView
@@ -103,6 +106,7 @@ export default async function DashboardPage() {
       readyCapsule={readyCapsule}
       sealedCapsules={sealedCapsules || []}
       recentOpened={recentOpened}
+      displayName={displayName}
     />
   );
 }

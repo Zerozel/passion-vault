@@ -48,14 +48,24 @@ export function DashboardView({
   return (
     <div className="space-y-16 animate-in fade-in duration-700">
       {/* ========================================
+          LAYER 0 — The Vault Header
+          ======================================== */}
+      <div className="text-center pt-4 pb-2">
+        <h1 className="text-4xl sm:text-5xl font-semibold text-foreground tracking-tight">
+          Passion{" "}
+          <span className="text-accent">Vault</span>
+        </h1>
+      </div>
+
+      {/* ========================================
           LAYER 1 — Arrival
           ======================================== */}
-      <div className="text-center pt-8 pb-4">
+      <div className="text-center pt-0 pb-4">
         <p className="text-lg text-muted/60 tracking-wide">
           {getGreeting()},{" "}
           <span className="text-foreground font-semibold">{displayName}</span>.
         </p>
-        <h2 className="text-2xl font-semibold text-foreground mt-3 leading-relaxed">
+        <h2 className="text-xl sm:text-2xl font-semibold text-foreground mt-3 leading-relaxed">
           {hasEvidence
             ? "Your vault has been keeping your memories safe."
             : "Welcome to your vault. This space is yours."}

@@ -50,18 +50,18 @@ export function IdentityView({ hasEnoughMemories }: { hasEnoughMemories: boolean
 
   if (!hasEnoughMemories && !data) {
     return (
-      <div className="border border-border-subtle rounded-lg bg-surface p-12 text-center">
-        <div className="flex justify-center mb-4">
-          <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
-            <Sparkles className="h-6 w-6 text-accent" />
+      <div className="border border-border-subtle rounded-xl bg-surface/50 backdrop-blur-sm p-16 text-center">
+        <div className="flex justify-center mb-5">
+          <div className="w-16 h-16 rounded-full bg-accent/5 border border-accent/10 flex items-center justify-center">
+            <Sparkles className="h-8 w-8 text-accent/50" />
           </div>
         </div>
-        <p className="text-muted">
-          Identity evolution unlocks after you&apos;ve created at least two
-          memories with AI reflections.
+        <p className="text-muted text-lg">
+          Your evolution story is still being written.
         </p>
-        <p className="text-sm text-muted mt-2">
-          Keep capturing moments. Your journey is still unfolding.
+        <p className="text-sm text-muted/60 mt-2 max-w-sm mx-auto leading-relaxed">
+          Create at least two memories with AI reflections to see how your
+          purpose has grown over time.
         </p>
       </div>
     );
@@ -69,14 +69,15 @@ export function IdentityView({ hasEnoughMemories }: { hasEnoughMemories: boolean
 
   if (!data) {
     return (
-      <div className="text-center py-12">
-        <p className="text-muted mb-6">
+      <div className="text-center py-16">
+        <p className="text-muted mb-8 text-lg">
           Compare your earliest reflected memory with your most recent one.
         </p>
         <Button
           onClick={handleCompare}
           disabled={loading}
-          className="bg-accent text-accent-foreground hover:bg-accent/90"
+          className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg shadow-accent/10"
+          size="lg"
         >
           <Sparkles className="h-4 w-4 mr-2" />
           {loading ? "Generating..." : "Reveal your evolution"}
@@ -87,56 +88,66 @@ export function IdentityView({ hasEnoughMemories }: { hasEnoughMemories: boolean
   }
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Narrative */}
-      <div className="border border-accent/20 rounded-lg bg-accent/5 p-6">
-        <p className="text-xs text-muted uppercase tracking-wider mb-3">
-          Your evolution
-        </p>
-        <p className="text-foreground text-lg leading-relaxed">
-          {data.narrative}
-        </p>
+      <div className="relative rounded-xl overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-rose-subtle/5" />
+        <div className="relative border border-accent/10 rounded-xl bg-surface/60 backdrop-blur-md p-8">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-1 h-5 rounded-full bg-accent/60" />
+            <p className="text-xs text-accent/70 uppercase tracking-wider font-medium">
+              Your evolution
+            </p>
+          </div>
+          <p className="text-foreground text-xl leading-relaxed font-light">
+            {data.narrative}
+          </p>
+        </div>
       </div>
 
       {/* Side by side */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Earliest */}
-        <div className="border border-border-subtle rounded-lg bg-surface p-5 space-y-3">
-          <p className="text-xs text-muted uppercase tracking-wider">
+        <div className="border border-border-subtle rounded-xl bg-surface/50 backdrop-blur-sm p-6 space-y-4">
+          <p className="text-xs text-muted/60 uppercase tracking-wider">
             Where you began
           </p>
           <p className="text-sm text-muted">{formatDate(data.earliest.created_at)}</p>
-          <h4 className="text-foreground font-medium">{data.earliest.title}</h4>
-          <p className="text-sm text-muted line-clamp-3">{data.earliest.content}</p>
+          <h4 className="text-foreground font-semibold text-lg">{data.earliest.title}</h4>
+          <p className="text-sm text-muted leading-relaxed line-clamp-4">{data.earliest.content}</p>
           {data.earliest.emotion && (
-            <span className="inline-block px-2 py-0.5 rounded-full text-xs bg-accent/10 text-accent capitalize">
+            <span className="inline-block px-2.5 py-1 rounded-full text-xs bg-accent/10 text-accent border border-accent/20 capitalize">
               {data.earliest.emotion}
             </span>
           )}
           {data.earliest.identity_statement && (
-            <p className="text-xs text-accent/70 italic mt-2">
-              &ldquo;{data.earliest.identity_statement}&rdquo;
-            </p>
+            <div className="border-t border-border-subtle pt-4 mt-3">
+              <p className="text-xs text-accent/50 italic leading-relaxed">
+                &ldquo;{data.earliest.identity_statement}&rdquo;
+              </p>
+            </div>
           )}
         </div>
 
         {/* Latest */}
-        <div className="border border-border-subtle rounded-lg bg-surface p-5 space-y-3">
-          <p className="text-xs text-muted uppercase tracking-wider">
+        <div className="border border-border-subtle rounded-xl bg-surface/50 backdrop-blur-sm p-6 space-y-4">
+          <p className="text-xs text-muted/60 uppercase tracking-wider">
             Where you are now
           </p>
           <p className="text-sm text-muted">{formatDate(data.latest.created_at)}</p>
-          <h4 className="text-foreground font-medium">{data.latest.title}</h4>
-          <p className="text-sm text-muted line-clamp-3">{data.latest.content}</p>
+          <h4 className="text-foreground font-semibold text-lg">{data.latest.title}</h4>
+          <p className="text-sm text-muted leading-relaxed line-clamp-4">{data.latest.content}</p>
           {data.latest.emotion && (
-            <span className="inline-block px-2 py-0.5 rounded-full text-xs bg-accent/10 text-accent capitalize">
+            <span className="inline-block px-2.5 py-1 rounded-full text-xs bg-accent/10 text-accent border border-accent/20 capitalize">
               {data.latest.emotion}
             </span>
           )}
           {data.latest.identity_statement && (
-            <p className="text-xs text-accent/70 italic mt-2">
-              &ldquo;{data.latest.identity_statement}&rdquo;
-            </p>
+            <div className="border-t border-border-subtle pt-4 mt-3">
+              <p className="text-xs text-accent/50 italic leading-relaxed">
+                &ldquo;{data.latest.identity_statement}&rdquo;
+              </p>
+            </div>
           )}
         </div>
       </div>
@@ -146,9 +157,9 @@ export function IdentityView({ hasEnoughMemories }: { hasEnoughMemories: boolean
         <Button
           onClick={handleCompare}
           variant="ghost"
-          className="text-muted hover:text-foreground"
+          className="text-muted hover:text-foreground group"
         >
-          <ArrowRight className="h-4 w-4 mr-2" />
+          <ArrowRight className="h-4 w-4 mr-2 transition-transform group-hover:translate-x-0.5" />
           Generate again
         </Button>
       </div>

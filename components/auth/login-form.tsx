@@ -38,17 +38,21 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="border-border-subtle bg-surface">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl text-foreground">Welcome back</CardTitle>
+    <Card className="border-border-subtle bg-surface/50 backdrop-blur-sm rounded-xl">
+      <CardHeader className="space-y-1 pb-4">
+        <CardTitle className="text-2xl font-semibold text-foreground tracking-tight">
+          Welcome back
+        </CardTitle>
         <CardDescription className="text-muted">
           Sign in to your Passion Vault
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-foreground">Email</Label>
+            <Label htmlFor="email" className="text-foreground text-sm">
+              Email
+            </Label>
             <Input
               id="email"
               type="email"
@@ -56,11 +60,13 @@ export function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="border-border-subtle bg-background text-foreground"
+              className="border-border-subtle bg-background text-foreground rounded-xl h-11"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-foreground">Password</Label>
+            <Label htmlFor="password" className="text-foreground text-sm">
+              Password
+            </Label>
             <Input
               id="password"
               type="password"
@@ -68,23 +74,25 @@ export function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="border-border-subtle bg-background text-foreground"
+              className="border-border-subtle bg-background text-foreground rounded-xl h-11"
             />
           </div>
           {error && (
-            <p className="text-sm text-red-400">{error}</p>
+            <div className="border border-red-500/20 rounded-lg bg-red-500/5 p-3">
+              <p className="text-sm text-red-400">{error}</p>
+            </div>
           )}
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+            className="w-full bg-accent text-accent-foreground hover:bg-accent/90 rounded-xl h-11 shadow-lg shadow-accent/10"
           >
             {loading ? "Signing in..." : "Sign in"}
           </Button>
         </form>
-        <p className="mt-4 text-center text-sm text-muted">
+        <p className="mt-6 text-center text-sm text-muted">
           Don&apos;t have a vault?{" "}
-          <Link href="/signup" className="text-accent hover:underline">
+          <Link href="/signup" className="text-accent hover:underline font-medium">
             Create one
           </Link>
         </p>

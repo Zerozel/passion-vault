@@ -48,7 +48,7 @@ export function SideNav() {
         <h1 className="text-lg font-semibold text-foreground tracking-tight">
           Passion Vault
         </h1>
-        <p className="text-xs text-muted mt-0.5">Remember why you started.</p>
+        <p className="text-xs text-muted/60 mt-0.5">Remember why you started.</p>
       </div>
       {links.map((link) => {
         const Icon = link.icon;
@@ -58,13 +58,13 @@ export function SideNav() {
             key={link.href}
             href={link.href}
             className={cn(
-              "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
+              "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all",
               isActive
-                ? "bg-surface-elevated text-foreground"
-                : "text-muted hover:text-foreground hover:bg-surface"
+                ? "bg-accent/10 text-accent shadow-sm shadow-accent/5"
+                : "text-muted hover:text-foreground hover:bg-surface-elevated/50"
             )}
           >
-            <Icon className="h-4 w-4" />
+            <Icon className={cn("h-4 w-4 transition-colors", isActive && "text-accent")} />
             {link.label}
           </Link>
         );

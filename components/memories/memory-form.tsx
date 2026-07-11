@@ -86,7 +86,7 @@ export function MemoryForm({ vaultId, userId }: { vaultId: string; userId: strin
     setIsRecording(false);
   }
 
-   async function onSubmit(data: MemoryFormData) {
+  async function onSubmit(data: MemoryFormData) {
     setLoading(true);
     setError(null);
 
@@ -132,42 +132,45 @@ export function MemoryForm({ vaultId, userId }: { vaultId: string; userId: strin
   }
 
   return (
-    <Card className="border-border-subtle bg-surface">
-      <CardContent className="pt-6">
+    <Card className="border-border-subtle bg-surface/50 backdrop-blur-sm rounded-xl">
+      <CardContent className="p-5 sm:p-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Title */}
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-foreground">
+            <Label htmlFor="title" className="text-foreground text-sm">
               What happened that your future self should never forget?
             </Label>
             <Input
               id="title"
               placeholder="Give this memory a name"
               {...register("title")}
-              className="border-border-subtle bg-background text-foreground"
+              className="border-border-subtle bg-background text-foreground rounded-xl h-11"
             />
             {errors.title && (
               <p className="text-sm text-red-400">{errors.title.message}</p>
             )}
           </div>
 
+          {/* Story */}
           <div className="space-y-2">
-            <Label htmlFor="content" className="text-foreground">
+            <Label htmlFor="content" className="text-foreground text-sm">
               The story
             </Label>
             <Textarea
               id="content"
               placeholder="Write everything. This is evidence of who you are right now."
-              rows={6}
+              rows={5}
               {...register("content")}
-              className="border-border-subtle bg-background text-foreground resize-none"
+              className="border-border-subtle bg-background text-foreground resize-none rounded-xl"
             />
             {errors.content && (
               <p className="text-sm text-red-400">{errors.content.message}</p>
             )}
           </div>
 
+          {/* Emotion tags */}
           <div className="space-y-2">
-            <Label className="text-foreground">How do you feel?</Label>
+            <Label className="text-foreground text-sm">How do you feel?</Label>
             <div className="flex flex-wrap gap-2">
               {EMOTION_TAGS.map((emotion) => (
                 <button
@@ -175,10 +178,10 @@ export function MemoryForm({ vaultId, userId }: { vaultId: string; userId: strin
                   type="button"
                   onClick={() => setValue("emotion", emotion as EmotionTag)}
                   className={cn(
-                    "px-3 py-1.5 rounded-full text-sm border transition-colors capitalize",
+                    "px-3 py-1.5 rounded-full text-sm border transition-all capitalize",
                     selectedEmotion === emotion
                       ? "border-accent bg-accent/10 text-accent"
-                      : "border-border-subtle text-muted hover:border-muted"
+                      : "border-border-subtle text-muted hover:border-muted hover:text-foreground"
                   )}
                 >
                   {emotion}
@@ -187,7 +190,8 @@ export function MemoryForm({ vaultId, userId }: { vaultId: string; userId: strin
             </div>
           </div>
 
-          <div className="flex gap-4">
+          {/* Media buttons — mobile friendly */}
+          <div className="flex flex-wrap gap-3">
             <div>
               <input
                 type="file"
@@ -198,10 +202,10 @@ export function MemoryForm({ vaultId, userId }: { vaultId: string; userId: strin
               />
               <Label
                 htmlFor="image-upload"
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border-subtle text-muted hover:text-foreground hover:border-muted cursor-pointer transition-colors text-sm"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border-subtle text-muted hover:text-foreground hover:border-muted cursor-pointer transition-all text-sm"
               >
                 <ImagePlus className="h-4 w-4" />
-                Add image
+                <span className="hidden sm:inline">Add image</span>
               </Label>
             </div>
 
@@ -211,47 +215,57 @@ export function MemoryForm({ vaultId, userId }: { vaultId: string; userId: strin
                   type="button"
                   variant="outline"
                   onClick={startRecording}
-                  className="flex items-center gap-2 border-border-subtle text-muted hover:text-foreground"
+                  className="inline-flex items-center gap-2 border-border-subtle text-muted hover:text-foreground rounded-xl h-10"
                 >
                   <Mic className="h-4 w-4" />
-                  {voiceFile ? "Recorded ✓" : "Record voice"}
+                  <span className="hidden sm:inline">
+                    {voiceFile ? "Recorded ✓" : "Record voice"}
+                  </span>
                 </Button>
               ) : (
                 <Button
                   type="button"
                   variant="outline"
                   onClick={stopRecording}
-                  className="flex items-center gap-2 border-red-500/50 text-red-400 hover:text-red-300"
+                  className="inline-flex items-center gap-2 border-red-500/50 text-red-400 hover:text-red-300 rounded-xl h-10 animate-pulse"
                 >
-                  Stop recording
+                  <span className="w-2 h-2 rounded-full bg-red-400" />
+                  Stop
                 </Button>
               )}
             </div>
           </div>
 
+          {/* Image preview */}
           {imagePreview && (
             <div className="relative inline-block">
               <img
                 src={imagePreview}
                 alt="Preview"
-                className="max-h-48 rounded-lg"
+                className="max-h-48 rounded-xl border border-border-subtle"
               />
               <button
                 type="button"
                 onClick={clearImage}
-                className="absolute -top-2 -right-2 p-1 rounded-full bg-surface border border-border-subtle text-muted hover:text-foreground"
+                className="absolute -top-2 -right-2 p-1.5 rounded-full bg-surface border border-border-subtle text-muted hover:text-foreground hover:border-muted transition-all"
               >
                 <X className="h-3 w-3" />
               </button>
             </div>
           )}
 
-          {error && <p className="text-sm text-red-400">{error}</p>}
+          {/* Error */}
+          {error && (
+            <div className="border border-red-500/20 rounded-lg bg-red-500/5 p-3">
+              <p className="text-sm text-red-400">{error}</p>
+            </div>
+          )}
 
+          {/* Submit */}
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+            className="w-full bg-accent text-accent-foreground hover:bg-accent/90 rounded-xl h-12 text-base shadow-lg shadow-accent/10 hover:shadow-accent/20 transition-all"
           >
             {loading ? "Saving memory..." : "Save Memory"}
           </Button>

@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/client";
 import { uploadMedia } from "@/lib/storage";
+import { db } from "@/lib/db";
 import { EMOTION_TAGS, type EmotionTag } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,7 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ImagePlus, Mic, X } from "lucide-react";
+import { ImagePlus, Mic, X, WifiOff } from "lucide-react";
 
 const memorySchema = z.object({
   title: z.string().min(3, "Title is required"),
@@ -32,6 +33,7 @@ export function MemoryForm({ vaultId, userId }: { vaultId: string; userId: strin
   const [voiceFile, setVoiceFile] = useState<File | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [savedLocally, setSavedLocally] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -86,49 +88,141 @@ export function MemoryForm({ vaultId, userId }: { vaultId: string; userId: strin
     setIsRecording(false);
   }
 
+  async function handleSyncToRemote(
+    localId: string,
+    data: MemoryFormData,
+    imageUrl: string | null,
+    voiceUrl: string | null
+  ) {
+    try {
+      const { data: remote, error: insertError } = await supabase
+        .from("memories")
+        .insert({
+          vault_id: vaultId,
+          user_id: userId,
+          title: data.title,
+          content: data.content,
+          emotion: data.emotion || null,
+          image_url: imageUrl,
+          voice_url: voiceUrl,
+        })
+        .select("id")
+        .single();
+
+      if (insertError || !remote) return;
+
+      // Update local record with remote ID
+      const localRecords = await db.memories
+        .where("localId")
+        .equals(localId)
+        .toArray();
+      if (localRecords[0]) {
+        await db.memories.update(localRecords[0].id!, {
+          syncStatus: "synced",
+          remoteId: remote.id,
+          imageUrl,
+          voiceUrl,
+        });
+      }
+
+      // Trigger AI reflection
+      fetch("/api/ai/reflect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ memoryId: remote.id }),
+      }).catch(console.error);
+
+      // Navigate to the remote memory
+      router.push(`/dashboard/memories/${remote.id}`);
+    } catch {
+      // Sync failed — memory stays pending, will retry when online
+    }
+  }
+
   async function onSubmit(data: MemoryFormData) {
     setLoading(true);
     setError(null);
 
-    let imageUrl: string | null = null;
-    let voiceUrl: string | null = null;
+    const localId = crypto.randomUUID();
+    const now = new Date().toISOString();
+    const isOnline = navigator.onLine;
 
-    if (imageFile) {
-      imageUrl = await uploadMedia(imageFile, userId, "images");
-    }
+    // ==========================================
+    // STEP 1: Always save locally first
+    // ==========================================
+    await db.memories.add({
+      localId,
+      vaultId,
+      userId,
+      title: data.title,
+      content: data.content,
+      emotion: data.emotion || null,
+      imageFile: imageFile || null,
+      voiceFile: voiceFile || null,
+      imageUrl: null,
+      voiceUrl: null,
+      syncStatus: "pending",
+      remoteId: null,
+      createdAt: now,
+    });
 
-    if (voiceFile) {
-      voiceUrl = await uploadMedia(voiceFile, userId, "voice");
-    }
+    // ==========================================
+    // STEP 2: If online, upload media and sync
+    // ==========================================
+    if (isOnline) {
+      let imageUrl: string | null = null;
+      let voiceUrl: string | null = null;
 
-    const { data: memory, error: insertError } = await supabase
-      .from("memories")
-      .insert({
-        vault_id: vaultId,
-        user_id: userId,
-        title: data.title,
-        content: data.content,
-        emotion: data.emotion || null,
-        image_url: imageUrl,
-        voice_url: voiceUrl,
-      })
-      .select()
-      .single();
+      try {
+        if (imageFile) {
+          imageUrl = await uploadMedia(imageFile, userId, "images");
+        }
+        if (voiceFile) {
+          voiceUrl = await uploadMedia(voiceFile, userId, "voice");
+        }
+      } catch {
+        // Media upload failed — memory is saved locally, will retry
+      }
 
-    if (insertError || !memory) {
-      setError(insertError?.message || "Failed to save memory");
-      setLoading(false);
+      await handleSyncToRemote(localId, data, imageUrl, voiceUrl);
       return;
     }
 
-    // Trigger AI reflection
-    fetch("/api/ai/reflect", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ memoryId: memory.id }),
-    }).catch(console.error);
+    // ==========================================
+    // STEP 3: Offline — show local confirmation
+    // ==========================================
+    setSavedLocally(true);
+    setLoading(false);
+  }
 
-    router.push(`/dashboard/memories/${memory.id}`);
+  // Show offline success state
+  if (savedLocally) {
+    return (
+      <Card className="border-border-subtle bg-surface/50 backdrop-blur-sm rounded-xl">
+        <CardContent className="p-8 sm:p-12 text-center space-y-5">
+          <div className="flex justify-center">
+            <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
+              <WifiOff className="h-8 w-8 text-accent" />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-xl font-semibold text-foreground">
+              Preserved locally
+            </h3>
+            <p className="text-muted max-w-sm mx-auto leading-relaxed">
+              This memory has been safely stored on your device. It will
+              synchronize when you&apos;re connected again.
+            </p>
+          </div>
+          <Button
+            onClick={() => router.push("/dashboard")}
+            className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg shadow-accent/10"
+          >
+            Return to your vault
+          </Button>
+        </CardContent>
+      </Card>
+    );
   }
 
   return (

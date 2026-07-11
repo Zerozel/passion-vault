@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  /* Dark theme (default) */
   --color-background: hsl(222 20% 5%);
   --color-foreground: hsl(260 20% 96%);
   --color-surface: hsl(240 20% 10%);
@@ -13,10 +14,34 @@
   --color-ring: hsl(43 45% 54%);
 }
 
+/* Light theme overrides */
+.light {
+  --color-background: hsl(40 25% 97%);
+  --color-foreground: hsl(240 10% 15%);
+  --color-surface: hsl(40 20% 94%);
+  --color-surface-elevated: hsl(40 20% 90%);
+  --color-muted: hsl(240 5% 45%);
+  --color-accent: hsl(38 55% 42%);
+  --color-accent-foreground: hsl(40 30% 98%);
+  --color-rose-subtle: hsl(357 30% 50%);
+  --color-border-subtle: hsl(40 15% 85%);
+  --color-ring: hsl(38 55% 42%);
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Prevent flash of wrong theme */
+html {
+  background-color: hsl(222 20% 5%);
+}
+
+html.light {
+  background-color: hsl(40 25% 97%);
 }

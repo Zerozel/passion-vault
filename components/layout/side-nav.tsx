@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
   LayoutDashboard,
   PlusCircle,
@@ -43,7 +44,7 @@ export function SideNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-col gap-1 p-4">
+    <nav className="flex flex-col gap-1 p-4 h-full">
       <div className="mb-8 px-2">
         <h1 className="text-lg font-semibold text-foreground tracking-tight">
           Passion Vault
@@ -69,6 +70,9 @@ export function SideNav() {
           </Link>
         );
       })}
+      <div className="mt-auto pt-4">
+        <ThemeToggle />
+      </div>
     </nav>
   );
 }

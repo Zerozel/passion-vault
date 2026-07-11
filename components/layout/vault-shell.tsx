@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { redirect } from "next/navigation";
+import { signOut } from "@/app/actions/signout";
 
 export async function VaultShell({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -21,14 +22,7 @@ export async function VaultShell({ children }: { children: React.ReactNode }) {
           <SideNav />
         </div>
         <div className="p-4 border-t border-border-subtle">
-          <form
-            action={async () => {
-              "use server";
-              const supabase = await createClient();
-              await supabase.auth.signOut();
-              redirect("/login");
-            }}
-          >
+          <form action={signOut}>
             <Button
               variant="ghost"
               className="w-full justify-start text-muted hover:text-foreground"

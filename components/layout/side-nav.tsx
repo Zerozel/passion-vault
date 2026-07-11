@@ -8,6 +8,7 @@ import {
   PlusCircle,
   Clock,
   Sparkles,
+  User,
 } from "lucide-react";
 
 const links = [
@@ -30,6 +31,11 @@ const links = [
     href: "/dashboard/remember",
     label: "Remember Why",
     icon: Sparkles,
+  },
+  {
+    href: "/dashboard/identity",
+    label: "Identity",
+    icon: User,
   },
 ];
 

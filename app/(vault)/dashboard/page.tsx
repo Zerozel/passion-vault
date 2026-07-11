@@ -11,9 +11,6 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
-  // Extract display name from email
-  const displayName = userData.user.email?.split("@")[0] || "friend";
-
   const { data: vault } = await supabase
     .from("vaults")
     .select("*")
@@ -38,6 +35,9 @@ export default async function DashboardPage() {
       </div>
     );
   }
+
+  // Get display name — prefer vault setting, fallback to email prefix
+  const displayName = vault.display_name || userData.user.email?.split("@")[0] || "friend";
 
   // Fetch stats
   const { count: totalMemories } = await supabase

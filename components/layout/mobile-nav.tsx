@@ -39,7 +39,6 @@ export function MobileNav() {
     const stored = localStorage.getItem("passion-vault-theme") as Theme | null;
     if (stored) setTheme(stored);
 
-    // Listen for theme changes from other components on the same page
     const handleStorage = (e: StorageEvent) => {
       if (e.key === "passion-vault-theme" && e.newValue) {
         setTheme(e.newValue as Theme);
@@ -47,7 +46,6 @@ export function MobileNav() {
     };
     window.addEventListener("storage", handleStorage);
 
-    // Also poll for changes (handles same-tab updates from ThemeProvider)
     const interval = setInterval(() => {
       const current = localStorage.getItem("passion-vault-theme") as Theme | null;
       if (current && current !== theme) {
@@ -72,10 +70,13 @@ export function MobileNav() {
 
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(resolved);
+
+    setMenuOpen(false);
   }
 
   const ThemeIcon = theme === "light" ? Sun : theme === "system" ? Monitor : Moon;
-  const nextLabel = theme === "dark" ? "Light" : theme === "light" ? "System" : "Dark";
+  const themeLabel = theme === "dark" ? "Dark mode" : theme === "light" ? "Light mode" : "System theme";
+  const nextThemeLabel = theme === "dark" ? "Switch to Light" : theme === "light" ? "Switch to System" : "Switch to Dark";
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -107,17 +108,6 @@ export function MobileNav() {
           );
         })}
 
-        {/* Theme quick toggle */}
-        {mounted && (
-          <button
-            onClick={cycleTheme}
-            className="flex flex-col items-center gap-1 px-2 py-2 rounded-lg text-xs text-muted hover:text-foreground transition-colors"
-          >
-            <ThemeIcon className="h-5 w-5" />
-            <span>{nextLabel}</span>
-          </button>
-        )}
-
         {/* More menu */}
         <div className="relative">
           <button
@@ -143,6 +133,16 @@ export function MobileNav() {
                   <User className="h-4 w-4" />
                   Who You're Becoming
                 </Link>
+                {mounted && (
+                  <button
+                    onClick={cycleTheme}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted hover:text-foreground hover:bg-surface-elevated transition-colors w-full text-left"
+                    title={nextThemeLabel}
+                  >
+                    <ThemeIcon className="h-4 w-4" />
+                    {themeLabel}
+                  </button>
+                )}
                 <button
                   onClick={() => {
                     setMenuOpen(false);

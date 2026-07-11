@@ -74,3 +74,14 @@ export interface TimeCapsule {
   ai_reflection: string | null;
   created_at: string;
 }
+
+export interface Vault {
+  id: string;
+  user_id: string;
+  display_name: string | null;
+  dream_title: string;
+  mission: string;
+  why_i_started: string;
+  created_at: string;
+  updated_at: string;
+}

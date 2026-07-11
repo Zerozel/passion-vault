@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 
 const vaultSchema = z.object({
+  display_name: z.string().min(1, "What should we call you?"),
   dream_title: z.string().min(3, "Title must be at least 3 characters"),
   mission: z.string().min(10, "Mission must be at least 10 characters"),
   why_i_started: z.string().min(10, "Tell us why you started"),
@@ -40,6 +41,7 @@ export function CreateVaultForm({ userId }: { userId: string }) {
 
     const { error: insertError } = await supabase.from("vaults").insert({
       user_id: userId,
+      display_name: data.display_name,
       dream_title: data.dream_title,
       mission: data.mission,
       why_i_started: data.why_i_started,
@@ -59,6 +61,21 @@ export function CreateVaultForm({ userId }: { userId: string }) {
     <Card className="border-border-subtle bg-surface/50 backdrop-blur-sm rounded-xl">
       <CardContent className="p-5 sm:p-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="display_name" className="text-foreground text-sm">
+              What should we call you?
+            </Label>
+            <Input
+              id="display_name"
+              placeholder="Your name"
+              {...register("display_name")}
+              className="border-border-subtle bg-background text-foreground rounded-xl h-11"
+            />
+            {errors.display_name && (
+              <p className="text-sm text-red-400">{errors.display_name.message}</p>
+            )}
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="dream_title" className="text-foreground text-sm">
               Dream Title

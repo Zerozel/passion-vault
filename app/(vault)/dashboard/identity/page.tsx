@@ -10,14 +10,22 @@ export default async function IdentityPage() {
     redirect("/login");
   }
 
-  const { count } = await supabase
+  // Count memories that have AI reflections
+  const { data: reflectedMemories } = await supabase
     .from("memories")
-    .select("*, ai_reflections(*)")
+    .select("id")
     .eq("user_id", userData.user.id)
-    .not("ai_reflections", "is", null)
-    .order("created_at", { ascending: true });
+    .not("ai_reflections", "is", null);
 
-  const hasEnoughMemories = (count || 0) >= 2;
+  // The not() filter on a joined table doesn't work as expected.
+  // Instead, fetch memories that have a reflection via the ai_reflections table directly.
+  const { data: reflections } = await supabase
+    .from("ai_reflections")
+    .select("memory_id")
+    .eq("user_id", userData.user.id);
+
+  const reflectedCount = reflections ? reflections.length : 0;
+  const hasEnoughMemories = reflectedCount >= 2;
 
   return (
     <div className="space-y-6">

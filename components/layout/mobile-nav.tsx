@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
-import { useTheme } from "@/components/providers/theme-provider";
 import {
   LayoutDashboard,
   PlusCircle,
@@ -13,9 +12,6 @@ import {
   Sparkles,
   User,
   LogOut,
-  Moon,
-  Sun,
-  Monitor,
   MoreHorizontal,
 } from "lucide-react";
 
@@ -29,13 +25,7 @@ const links = [
 export function MobileNav() {
   const pathname = usePathname();
   const router = useRouter();
-  const { theme, setTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -43,10 +33,6 @@ export function MobileNav() {
     router.push("/login");
     router.refresh();
   }
-
-  const ThemeIcon = theme === "light" ? Sun : theme === "system" ? Monitor : Moon;
-  const nextTheme = theme === "dark" ? "light" : theme === "light" ? "system" : "dark";
-  const nextLabel = nextTheme === "light" ? "Light" : nextTheme === "system" ? "System" : "Dark";
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border-subtle bg-surface/90 backdrop-blur-md safe-area-bottom">
@@ -71,19 +57,7 @@ export function MobileNav() {
           );
         })}
 
-        {/* Theme quick toggle */}
-        {mounted && (
-          <button
-            onClick={() => setTheme(nextTheme)}
-            className="flex flex-col items-center gap-1 px-2 py-2 rounded-lg text-xs text-muted hover:text-foreground transition-colors"
-            title={`Switch to ${nextLabel} mode`}
-          >
-            <ThemeIcon className="h-5 w-5" />
-            <span>{nextLabel}</span>
-          </button>
-        )}
-
-        {/* More menu */}
+        {/* More menu — Identity + Sign Out */}
         <div className="relative">
           <button
             onClick={() => setMenuOpen(!menuOpen)}

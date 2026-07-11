@@ -1,3 +1,5 @@
+"use client";
+
 import { VaultShell } from "@/components/layout/vault-shell";
 
 export default function VaultLayout({

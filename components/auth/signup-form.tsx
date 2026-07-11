@@ -22,19 +22,30 @@ export function SignUpForm() {
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
 
-    if (error) {
-      setError(error.message);
+      if (error) {
+        setError(error.message);
+        setLoading(false);
+        return;
+      }
+
+      if (data.session) {
+        // Session exists — redirect immediately
+        window.location.href = "/dashboard";
+      } else {
+        // Email confirmation required — show message
+        setError("Please check your email to confirm your account.");
+        setLoading(false);
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
       setLoading(false);
-      return;
     }
-
-    router.push("/dashboard");
-    router.refresh();
   }
 
   return (

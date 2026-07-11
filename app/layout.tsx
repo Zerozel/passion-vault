@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   title: "Passion Vault",
   description: "Remember why you started.",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/icons/icon-192.png",
+    apple: "/icons/icon-192.png",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -37,6 +41,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
+        <link rel="icon" type="image/png" href="/icons/icon-192.png" />
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
         <script src="/register-sw.js" defer />
         <meta name="theme-color" content="#0a0a12" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -24,7 +23,6 @@ type VaultFormData = z.infer<typeof vaultSchema>;
 export function CreateVaultForm({ userId }: { userId: string }) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const supabase = createClient();
 
   const {
@@ -39,22 +37,27 @@ export function CreateVaultForm({ userId }: { userId: string }) {
     setLoading(true);
     setError(null);
 
-    const { error: insertError } = await supabase.from("vaults").insert({
-      user_id: userId,
-      display_name: data.display_name,
-      dream_title: data.dream_title,
-      mission: data.mission,
-      why_i_started: data.why_i_started,
-    });
+    try {
+      const { error: insertError } = await supabase.from("vaults").insert({
+        user_id: userId,
+        display_name: data.display_name,
+        dream_title: data.dream_title,
+        mission: data.mission,
+        why_i_started: data.why_i_started,
+      });
 
-    if (insertError) {
-      setError(insertError.message);
+      if (insertError) {
+        setError(insertError.message);
+        setLoading(false);
+        return;
+      }
+
+      // Force full navigation to refresh all server data
+      window.location.href = "/dashboard";
+    } catch {
+      setError("Something went wrong. Please try again.");
       setLoading(false);
-      return;
     }
-
-    router.push("/dashboard");
-    router.refresh();
   }
 
   return (

@@ -1,0 +1,199 @@
+*This is a submission for [Weekend Challenge: Passion Edition](https://dev.to/challenges/weekend-2026-07-09)*
+
+# Passion Vault — Remember why you started.
+
+## What I Built
+
+A few months ago, I opened one of my old notebooks.
+
+Between sketches, failed ideas, and messy handwriting was a sentence I had completely forgotten:
+
+> *"One day I'll build something that changes people's lives, one that would make me leave a legacy."*
+
+For a moment, I wasn't reading words on a page—I was meeting an older version of myself. The conviction in that sentence was stronger than any motivational video I had watched in years.
+
+That moment became a question I couldn't ignore:
+
+**What if passion doesn't disappear? What if we simply lose access to the evidence of who we once were?**
+
+That question became **Passion Vault**.
+
+Instead of trying to motivate people, Passion Vault preserves the moments that shape their identity. Users capture meaningful memories through text, voice, and images. Google Gemini then analyzes those memories to uncover emotional truths, lessons learned, and identity statements grounded in the user's own words.
+
+When doubt inevitably arrives, the app doesn't generate encouragement.
+
+It simply brings your own evidence back to you.
+
+Because **passion fades. Evidence doesn't.**
+
+
+## Demo
+<!-- Embed your project (i.e. Cloud Run) or share a deployed link/video demo of your project -->
+
+## Code
+
+The complete source code is available on GitHub:
+
+**GitHub Repository:** *https://github.com/Zerozel/passion-vault.git*
+
+The project is organized around the user's journey rather than just technical layers:
+
+```text
+Experience
+    ↓
+Capture Memory
+    ↓
+Preserve Evidence
+    ↓
+AI Reflection (Google Gemini)
+    ↓
+Identity Extraction
+    ↓
+Timeline & Remember Why
+    ↓
+Reconnection
+```
+
+Some highlights worth exploring in the repository include:
+
+* **App Router architecture** with dedicated route groups for authentication and the protected vault.
+* **Supabase** for authentication, PostgreSQL, storage, and Row Level Security.
+* **Google Gemini integration** powering reflections, reconnection, identity evolution, and time capsule comparisons.
+* **Offline-first PWA architecture** with local persistence and background synchronization.
+* **Immutable evidence model**, where memories become permanent records rather than editable notes.
+
+Every architectural decision was guided by one principle:
+
+> **Passion Vault isn't built to generate motivation. It's built to preserve evidence.**
+
+
+## How I Built It
+
+The turning point in this project came when I stopped thinking of it as an AI journal.
+
+I realized I wasn't trying to help people write better journal entries. I was trying to solve a different problem:
+
+**How do you help someone reconnect with the version of themselves that first believed in their dream?**
+
+Once that became clear, every technical decision followed naturally.
+
+### From Philosophy to Architecture
+
+I designed Passion Vault around a simple pipeline:
+
+```text
+Experience
+      ↓
+Capture
+      ↓
+Immutable Evidence
+      ↓
+AI Reflection
+      ↓
+Identity Extraction
+      ↓
+Timeline
+      ↓
+Remember Why
+      ↓
+Reconnect
+```
+
+Every feature exists somewhere along this journey.
+
+The goal isn't to generate motivation. The goal is to preserve evidence that can later restore perspective.
+
+### The Technology
+
+The application is built with **Next.js (App Router)** and **TypeScript**, with **Supabase** handling authentication, PostgreSQL, storage, and Row Level Security. Every user owns a private vault where memories, images, voice recordings, AI reflections, and time capsules are securely stored.
+
+For AI, I used **Google Gemini** to analyze memories after they're created. Rather than generating generic encouragement, Gemini produces structured reflections that include:
+
+* an emotional summary
+* a lesson learned
+* an identity statement grounded entirely in the user's own writing
+
+These reflections become part of the user's evolving story instead of replacing it.
+
+### Engineering Decisions
+
+Several decisions shaped the product more than any individual feature.
+
+**Immutable memories.** Once a memory is saved, it cannot be edited. Evidence loses its value if it can be rewritten later. The vault is meant to become a trustworthy witness to your journey.
+
+**AI as reflection, not motivation.** Every prompt explicitly forbids generic motivational language. The AI observes, identifies patterns, and reflects what already exists in the user's experiences.
+
+**Offline-first capture.** Inspiration doesn't wait for a stable internet connection. The application works as an installable Progressive Web App (PWA), storing memories locally with IndexedDB before synchronizing them when connectivity returns.
+
+**Time Capsules.** Users can write letters to their future selves, seal them until a chosen date, and later compare who they were with who they've become. It transforms journaling into a conversation across time.
+
+**Identity-first interface.** Even the dashboard avoids productivity metrics. Instead of asking "What have you done?", it quietly reminds users who they are, why they started, and the evidence they've collected along the way.
+
+### Challenges Along the Way
+
+Like any weekend build, there were a few interesting engineering hurdles.
+
+Google Gemini's free-tier rate limits forced me to rethink my implementation before settling on a lightweight model that fit the application's structured reflection workflow.
+
+Supabase Storage required carefully configured Row Level Security policies so users could securely upload and access only their own media.
+
+When Next.js 16's Turbopack conflicted with traditional PWA tooling, I replaced the dependency with a custom service worker implementation, giving me a cleaner offline architecture while keeping the application installable.
+
+### The Feature I'm Most Proud Of
+
+Ironically, it isn't the AI.
+
+It's the feeling of reading your own thoughts months or years later.
+
+As entrepreneurs, creators, and builders, we constantly evolve. The person who starts a dream is rarely the same person who eventually lives it. Along the way, we forget the questions that kept us awake, the excitement behind our first ideas, and the convictions that once felt unshakable.
+
+Passion Vault preserves those earlier perspectives.
+
+Not so we can become that person again—but so we never lose sight of how we became who we are.
+
+That idea became the foundation for every engineering decision in the project.
+
+## Prize Categories
+
+### 🏆 Best Use of Google AI
+
+Passion Vault was designed around **Google Gemini**, not simply enhanced by it.
+
+Rather than using AI to generate motivational messages or rewrite journal entries, Gemini serves as a thoughtful interpreter of each memory. After a user records an experience, it analyzes the entry to produce three grounded insights:
+
+* **Emotional Summary** — what the user was truly experiencing.
+* **Lesson Learned** — the meaningful takeaway hidden within the moment.
+* **Identity Statement** — a reflection of the values, beliefs, or character revealed through the user's own words.
+
+The same AI foundation powers the application's signature experiences:
+
+* **Remember Why**, where Gemini helps reconnect users with meaningful moments from their past.
+* **Identity Evolution**, where it compares earlier and recent memories to narrate personal growth over time.
+* **Time Capsules**, where users can write letters to their future selves and, upon opening them, receive an AI-assisted reflection comparing who they were with who they have become.
+
+Throughout the project, I deliberately constrained the prompts to avoid generic encouragement or artificial positivity. The AI never tells users who they should become—it helps them rediscover who they have already been.
+
+In Passion Vault, Google AI isn't the product.
+
+It's the quiet bridge between past experiences and present perspective.
+
+
+## Final Thoughts
+
+This challenge asked us to build something inspired by **passion**.
+
+While building Passion Vault, I realized that passion isn't something we manufacture. It's something we slowly lose sight of as failures, routines, and responsibilities bury the reasons we started.
+
+That's why I didn't build another AI journaling app.
+
+I built a personal evidence system.
+
+A place where moments become evidence, evidence becomes identity, and identity can be rediscovered when life makes us forget.
+
+My hope is that Passion Vault doesn't just help people remember what they did.
+
+I hope it helps them remember **who they were**—and in doing so, understand who they're becoming.
+
+Thank you to the DEV community for organizing this challenge and creating a space where ideas like this can come to life.
+
+If you're reading this, I'd genuinely love your thoughts. What feature would make a product like Passion Vault meaningful to you?

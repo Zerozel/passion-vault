@@ -1,4 +1,4 @@
-const CACHE_NAME = "passion-vault-v2";
+const CACHE_NAME = "passion-vault-v2.1";
 const STATIC_ASSETS = [
   "/",
   "/login",

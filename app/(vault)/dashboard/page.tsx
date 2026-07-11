@@ -48,7 +48,6 @@ export default async function DashboardPage() {
     .eq("user_id", userData.user.id)
     .order("created_at", { ascending: false });
 
-  // Count unique days
   const uniqueDays = new Set(
     (activeDays || []).map((m) => m.created_at.split("T")[0])
   ).size;
@@ -61,12 +60,49 @@ export default async function DashboardPage() {
     .order("created_at", { ascending: false })
     .limit(3);
 
+  // Fetch time capsules
+  const today = new Date().toISOString().split("T")[0];
+
+  // Unopened capsule that's ready to open
+  const { data: readyCapsule } = await supabase
+    .from("time_capsules")
+    .select("*")
+    .eq("user_id", userData.user.id)
+    .eq("opened", false)
+    .lte("unlock_date", today)
+    .order("unlock_date", { ascending: true })
+    .limit(1)
+    .single();
+
+  // Sealed capsules (future unlock date)
+  const { data: sealedCapsules } = await supabase
+    .from("time_capsules")
+    .select("*")
+    .eq("user_id", userData.user.id)
+    .eq("opened", false)
+    .gt("unlock_date", today)
+    .order("unlock_date", { ascending: true })
+    .limit(3);
+
+  // Recently opened capsule
+  const { data: recentOpened } = await supabase
+    .from("time_capsules")
+    .select("*")
+    .eq("user_id", userData.user.id)
+    .eq("opened", true)
+    .order("opened_at", { ascending: false })
+    .limit(1)
+    .single();
+
   return (
     <DashboardView
       vault={vault}
       totalMemories={totalMemories || 0}
       uniqueDays={uniqueDays}
       recentMemories={recentMemories || []}
+      readyCapsule={readyCapsule}
+      sealedCapsules={sealedCapsules || []}
+      recentOpened={recentOpened}
     />
   );
 }

@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { PlusCircle, Sparkles, Clock } from "lucide-react";
+import { PlusCircle, Sparkles, Clock, Hourglass, Lock, MailOpen } from "lucide-react";
 import { formatDate } from "@/lib/utils";
-import type { MemoryWithReflection } from "@/types";
+import { Button } from "@/components/ui/button";
+import type { MemoryWithReflection, TimeCapsule } from "@/types";
 
 interface DashboardViewProps {
   vault: {
@@ -12,6 +13,15 @@ interface DashboardViewProps {
   totalMemories: number;
   uniqueDays: number;
   recentMemories: MemoryWithReflection[];
+  readyCapsule: TimeCapsule | null;
+  sealedCapsules: TimeCapsule[];
+  recentOpened: TimeCapsule | null;
+}
+
+function daysUntil(date: string): number {
+  const now = new Date();
+  const target = new Date(date);
+  return Math.ceil((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 }
 
 export function DashboardView({
@@ -19,6 +29,9 @@ export function DashboardView({
   totalMemories,
   uniqueDays,
   recentMemories,
+  readyCapsule,
+  sealedCapsules,
+  recentOpened,
 }: DashboardViewProps) {
   return (
     <div className="space-y-12 animate-in fade-in duration-500">
@@ -60,7 +73,6 @@ export function DashboardView({
               <p className="text-sm text-muted mt-2">Pieces of evidence</p>
             </div>
           </div>
-
           <div className="relative rounded-xl overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-accent/3 to-transparent" />
             <div className="relative border border-border-subtle rounded-xl bg-surface/50 backdrop-blur-sm p-6">
@@ -70,7 +82,6 @@ export function DashboardView({
               <p className="text-sm text-muted mt-2">Days of becoming</p>
             </div>
           </div>
-
           <div className="relative rounded-xl overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-accent/3 to-transparent" />
             <div className="relative border border-border-subtle rounded-xl bg-surface/50 backdrop-blur-sm p-6">
@@ -98,6 +109,109 @@ export function DashboardView({
           >
             Capture your first moment
           </Link>
+        </div>
+      )}
+
+      {/* Time Capsule — Ready to open */}
+      {readyCapsule && (
+        <div className="relative rounded-xl overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-500/8 via-accent/5 to-rose-subtle/5 animate-pulse" />
+          <div className="relative border border-accent/20 rounded-xl bg-surface/60 backdrop-blur-md p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
+                  <MailOpen className="h-5 w-5 text-accent" />
+                </div>
+                <div>
+                  <p className="text-sm text-accent font-medium">
+                    A Time Capsule is waiting
+                  </p>
+                  <p className="text-xs text-muted mt-0.5">
+                    Sealed on {formatDate(readyCapsule.created_at)}
+                  </p>
+                </div>
+              </div>
+              <Link href={`/dashboard/capsules/${readyCapsule.id}/open`}>
+                <Button
+                  className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg shadow-accent/10 text-sm"
+                >
+                  Open it
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Time Capsule — Sealed */}
+      {sealedCapsules.length > 0 && (
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-muted/80 uppercase tracking-wider flex items-center gap-2">
+            <Hourglass className="h-3.5 w-3.5" />
+            Sealed Capsules
+          </h3>
+          {sealedCapsules.map((capsule) => {
+            const remaining = daysUntil(capsule.unlock_date);
+            return (
+              <div
+                key={capsule.id}
+                className="border border-border-subtle rounded-xl bg-surface/50 backdrop-blur-sm p-4 flex items-center justify-between"
+              >
+                <div className="flex items-center gap-3">
+                  <Lock className="h-4 w-4 text-muted" />
+                  <div>
+                    <p className="text-foreground text-sm font-medium">
+                      {capsule.title}
+                    </p>
+                    <p className="text-xs text-muted">
+                      Opens {formatDate(capsule.unlock_date)}
+                      {remaining > 0 && (
+                        <span className="ml-1">— {remaining} day{remaining !== 1 ? "s" : ""}</span>
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Time Capsule — Create prompt (only if no capsules exist) */}
+      {!readyCapsule && sealedCapsules.length === 0 && !recentOpened && totalMemories > 0 && (
+        <Link
+          href="/dashboard/capsules/new"
+          className="block relative rounded-xl overflow-hidden group"
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-accent/3 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="relative border border-border-subtle border-dashed rounded-xl bg-surface/30 backdrop-blur-sm p-6 text-center group-hover:border-accent/30 transition-all">
+            <div className="flex justify-center mb-3">
+              <div className="w-10 h-10 rounded-full bg-accent/5 border border-accent/10 flex items-center justify-center group-hover:bg-accent/10 transition-colors">
+                <Hourglass className="h-5 w-5 text-accent/50 group-hover:text-accent transition-colors" />
+              </div>
+            </div>
+            <p className="text-sm text-muted group-hover:text-foreground transition-colors">
+              Leave a letter for your future self
+            </p>
+            <p className="text-xs text-muted/50 mt-1">
+              Seal words that only time should open
+            </p>
+          </div>
+        </Link>
+      )}
+
+      {/* Recently opened capsule */}
+      {recentOpened && recentOpened.ai_reflection && (
+        <div className="border border-border-subtle rounded-xl bg-surface/50 backdrop-blur-sm p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <MailOpen className="h-4 w-4 text-accent/60" />
+            <p className="text-xs text-muted/60 uppercase tracking-wider">
+              Opened Capsule — {formatDate(recentOpened.opened_at!)}
+            </p>
+          </div>
+          <p className="text-sm text-muted italic line-clamp-3">
+            &ldquo;{recentOpened.ai_reflection}&rdquo;
+          </p>
         </div>
       )}
 

@@ -59,3 +59,18 @@ export interface AIReflection {
 export interface MemoryWithReflection extends Memory {
   ai_reflection?: AIReflection | null;
 }
+
+export interface TimeCapsule {
+  id: string;
+  user_id: string;
+  title: string;
+  letter: string;
+  unlock_date: string;
+  mood: string | null;
+  image_url: string | null;
+  voice_url: string | null;
+  opened: boolean;
+  opened_at: string | null;
+  ai_reflection: string | null;
+  created_at: string;
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -42,6 +43,11 @@ const links = [
 
 export function SideNav() {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <nav className="flex flex-col gap-1 p-4 h-full">
@@ -71,7 +77,7 @@ export function SideNav() {
         );
       })}
       <div className="mt-auto pt-4">
-        <ThemeToggle />
+        {mounted && <ThemeToggle />}
       </div>
     </nav>
   );

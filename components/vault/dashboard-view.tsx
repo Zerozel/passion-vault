@@ -37,7 +37,7 @@ export function DashboardView({
           className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-accent text-accent-foreground font-medium hover:bg-accent/90 transition-all shadow-lg shadow-accent/10 hover:shadow-accent/20 hover:-translate-y-0.5"
         >
           <PlusCircle className="h-4 w-4" />
-          New Memory
+          Capture a Moment
         </Link>
         <Link
           href="/dashboard/remember"
@@ -77,7 +77,7 @@ export function DashboardView({
               <p className="text-4xl font-semibold text-foreground tracking-tight">
                 {recentMemories.filter((m) => m.ai_reflection).length}
               </p>
-              <p className="text-sm text-muted mt-2">Reflections earned</p>
+              <p className="text-sm text-muted mt-2">Truths revealed</p>
             </div>
           </div>
         </div>
@@ -89,18 +89,19 @@ export function DashboardView({
             </div>
           </div>
           <p className="text-muted text-lg">
-            Your vault is waiting for its first piece of evidence.
+            Every meaningful journey begins with one moment.
           </p>
+          <p className="text-sm text-muted/60 mt-1">This space is patient.</p>
           <Link
             href="/dashboard/new"
-            className="text-accent hover:underline mt-3 inline-block text-sm"
+            className="text-accent hover:underline mt-4 inline-block text-sm"
           >
-            Create your first memory
+            Capture your first moment
           </Link>
         </div>
       )}
 
-      {/* Recent memories */}
+      {/* Recent evidence */}
       {recentMemories.length > 0 && (
         <div className="space-y-5">
           <div className="flex items-center justify-between">
@@ -112,7 +113,7 @@ export function DashboardView({
               className="text-xs text-accent hover:underline flex items-center gap-1.5 transition-colors"
             >
               <Clock className="h-3 w-3" />
-              View timeline
+              See your journey
             </Link>
           </div>
           <div className="space-y-3">

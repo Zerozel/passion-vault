@@ -44,7 +44,7 @@ export function SignUpForm() {
           Create your Vault
         </CardTitle>
         <CardDescription className="text-muted">
-          Start preserving your passion
+          This is where your journey begins.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -87,13 +87,13 @@ export function SignUpForm() {
             disabled={loading}
             className="w-full bg-accent text-accent-foreground hover:bg-accent/90 rounded-xl h-11 shadow-lg shadow-accent/10"
           >
-            {loading ? "Creating vault..." : "Create vault"}
+            {loading ? "Creating your vault..." : "Begin preserving"}
           </Button>
         </form>
         <p className="mt-6 text-center text-sm text-muted">
-          Already have a vault?{" "}
+          Your evidence is still here.{" "}
           <Link href="/login" className="text-accent hover:underline font-medium">
-            Sign in
+            Enter your vault
           </Link>
         </p>
       </CardContent>

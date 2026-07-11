@@ -142,7 +142,7 @@ export function MemoryForm({ vaultId, userId }: { vaultId: string; userId: strin
             </Label>
             <Input
               id="title"
-              placeholder="Give this memory a name"
+              placeholder="Name this moment — you'll search for it someday"
               {...register("title")}
               className="border-border-subtle bg-background text-foreground rounded-xl h-11"
             />
@@ -154,11 +154,11 @@ export function MemoryForm({ vaultId, userId }: { vaultId: string; userId: strin
           {/* Story */}
           <div className="space-y-2">
             <Label htmlFor="content" className="text-foreground text-sm">
-              The story
+              Tell the story exactly as you lived it
             </Label>
             <Textarea
               id="content"
-              placeholder="Write everything. This is evidence of who you are right now."
+              placeholder="Write as though you're leaving evidence for someone who needs it. That someone is you."
               rows={5}
               {...register("content")}
               className="border-border-subtle bg-background text-foreground resize-none rounded-xl"
@@ -190,7 +190,7 @@ export function MemoryForm({ vaultId, userId }: { vaultId: string; userId: strin
             </div>
           </div>
 
-          {/* Media buttons — mobile friendly */}
+          {/* Media buttons */}
           <div className="flex flex-wrap gap-3">
             <div>
               <input
@@ -267,7 +267,7 @@ export function MemoryForm({ vaultId, userId }: { vaultId: string; userId: strin
             disabled={loading}
             className="w-full bg-accent text-accent-foreground hover:bg-accent/90 rounded-xl h-12 text-base shadow-lg shadow-accent/10 hover:shadow-accent/20 transition-all"
           >
-            {loading ? "Saving memory..." : "Save Memory"}
+            {loading ? "Preserving your evidence..." : "Preserve this moment"}
           </Button>
         </form>
       </CardContent>

@@ -17,6 +17,7 @@ Rules:
 - Never use percentages or metrics
 - Be honest — if the earlier memory had more conviction, note that gently
 - If their purpose evolved, acknowledge that evolution is valid, not failure
+- If the writing reveals fear, uncertainty, or struggle, do not minimize it. Acknowledge it honestly. The goal is not to make them feel better — it is to help them see themselves clearly.
 - Sound like someone who has been quietly watching their journey with respect`;
 
 export async function POST(request: Request) {

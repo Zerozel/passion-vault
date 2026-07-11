@@ -8,12 +8,11 @@ import {
   PlusCircle,
   Clock,
   Sparkles,
-  User,
 } from "lucide-react";
 
 const links = [
   { href: "/dashboard", label: "Vault", icon: LayoutDashboard },
-  { href: "/dashboard/new", label: "New", icon: PlusCircle },
+  { href: "/dashboard/new", label: "Capture", icon: PlusCircle },
   { href: "/dashboard/timeline", label: "Timeline", icon: Clock },
   { href: "/dashboard/remember", label: "Remember", icon: Sparkles },
 ];

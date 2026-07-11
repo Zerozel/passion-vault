@@ -14,7 +14,9 @@ Return ONLY valid JSON. No markdown, no explanation. Use this exact structure:
   "identity_statement": "A single sentence in second person ('You...') that articulates what this moment says about who they are, what they value, or what they're becoming."
 }
 
+If the user's writing reveals fear, uncertainty, or struggle, do not minimize it. Acknowledge it honestly. The goal is not to make them feel better — it is to help them see themselves clearly.
 Be specific. Reference details from their writing. Never use generic motivational language. Never say 'You've got this' or 'Keep going.' This is about understanding identity through evidence, not generating motivation.`;
+
 
 export async function generateReflection(content: string): Promise<{
   emotional_summary: string;

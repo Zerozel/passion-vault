@@ -38,9 +38,11 @@ export default async function RememberWhyPage() {
             </div>
           </div>
           <p className="text-muted max-w-sm mx-auto leading-relaxed">
-            When you&apos;ve captured enough memories, we&apos;ll help you
-            rediscover the moments that shaped you.
+            This space waits patiently. Keep capturing moments, and one
+            day it will remind you of someone important.
           </p>
+
+
         </div>
       )}
     </div>

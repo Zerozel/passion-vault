@@ -60,8 +60,7 @@ export function IdentityView({ hasEnoughMemories }: { hasEnoughMemories: boolean
           Your evolution story is still being written.
         </p>
         <p className="text-sm text-muted/60 mt-2 max-w-sm mx-auto leading-relaxed">
-          Create at least two memories with AI reflections to see how your
-          purpose has grown over time.
+          Capture two reflected moments, and this space will begin revealing your growth.
         </p>
       </div>
     );
@@ -80,7 +79,7 @@ export function IdentityView({ hasEnoughMemories }: { hasEnoughMemories: boolean
           size="lg"
         >
           <Sparkles className="h-4 w-4 mr-2" />
-          {loading ? "Generating..." : "Reveal your evolution"}
+          {loading ? "Looking back..." : "Reveal your evolution"}
         </Button>
         {error && <p className="text-sm text-red-400 mt-4">{error}</p>}
       </div>
@@ -160,7 +159,7 @@ export function IdentityView({ hasEnoughMemories }: { hasEnoughMemories: boolean
           className="text-muted hover:text-foreground group"
         >
           <ArrowRight className="h-4 w-4 mr-2 transition-transform group-hover:translate-x-0.5" />
-          Generate again
+          Reflect once more
         </Button>
       </div>
     </div>

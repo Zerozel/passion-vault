@@ -28,12 +28,14 @@ export default async function MemoryDetailPage({
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center space-y-3">
-          <p className="text-muted">This memory no longer exists.</p>
+          <p className="text-muted">
+            This memory has been released. Some evidence is meant to be temporary.
+          </p>
           <Link
             href="/dashboard/timeline"
             className="text-accent hover:underline text-sm"
           >
-            Return to timeline
+            Continue your journey
           </Link>
         </div>
       </div>
@@ -50,7 +52,7 @@ export default async function MemoryDetailPage({
         className="inline-flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
-        Back to timeline
+        Back to your journey
       </Link>
 
       {/* Memory header */}
@@ -89,8 +91,8 @@ export default async function MemoryDetailPage({
       {/* Voice */}
       {typedMemory.voice_url && (
         <div className="border border-border-subtle rounded-xl bg-surface/50 backdrop-blur-sm p-5">
-          <p className="text-xs text-muted uppercase tracking-wider mb-3">
-            Voice recording
+          <p className="text-xs text-muted/60 uppercase tracking-wider mb-3">
+            Your voice, preserved
           </p>
           <audio controls className="w-full">
             <source src={typedMemory.voice_url} type="audio/webm" />
@@ -98,10 +100,9 @@ export default async function MemoryDetailPage({
         </div>
       )}
 
-      {/* AI Reflection — the emotional centerpiece */}
+      {/* AI Reflection */}
       {typedMemory.ai_reflection && (
         <div className="relative rounded-xl overflow-hidden">
-          {/* Subtle amber glow behind the card */}
           <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-rose-subtle/5" />
 
           <div className="relative border border-accent/10 rounded-xl bg-surface/60 backdrop-blur-md p-8 space-y-6">
@@ -115,7 +116,7 @@ export default async function MemoryDetailPage({
             <div className="space-y-5">
               <div>
                 <p className="text-xs text-muted/60 uppercase tracking-wider mb-2">
-                  Emotional Summary
+                  What this moment held
                 </p>
                 <p className="text-foreground leading-relaxed">
                   {typedMemory.ai_reflection.emotional_summary}
@@ -124,7 +125,7 @@ export default async function MemoryDetailPage({
 
               <div>
                 <p className="text-xs text-muted/60 uppercase tracking-wider mb-2">
-                  Lesson Learned
+                  What you discovered
                 </p>
                 <p className="text-foreground leading-relaxed">
                   {typedMemory.ai_reflection.lesson_learned}
@@ -133,7 +134,7 @@ export default async function MemoryDetailPage({
 
               <div className="border-t border-border-subtle pt-5">
                 <p className="text-xs text-muted/60 uppercase tracking-wider mb-3">
-                  Identity Statement
+                  Who you were becoming
                 </p>
                 <p className="text-foreground text-lg font-medium leading-relaxed italic">
                   &ldquo;{typedMemory.ai_reflection.identity_statement}&rdquo;

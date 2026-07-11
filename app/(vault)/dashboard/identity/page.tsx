@@ -10,7 +10,6 @@ export default async function IdentityPage() {
     redirect("/login");
   }
 
-  // Count reflected memories for the empty state
   const { count } = await supabase
     .from("memories")
     .select("*, ai_reflections(*)")
@@ -23,7 +22,7 @@ export default async function IdentityPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-semibold text-foreground">Identity Evolution</h2>
+        <h2 className="text-2xl font-semibold text-foreground">Who You're Becoming</h2>
         <p className="text-muted mt-1">See how your purpose has grown.</p>
       </div>
       <IdentityView hasEnoughMemories={hasEnoughMemories} />

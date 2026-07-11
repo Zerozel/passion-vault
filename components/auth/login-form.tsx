@@ -44,7 +44,7 @@ export function LoginForm() {
           Welcome back
         </CardTitle>
         <CardDescription className="text-muted">
-          Sign in to your Passion Vault
+          Your evidence is waiting.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -87,13 +87,13 @@ export function LoginForm() {
             disabled={loading}
             className="w-full bg-accent text-accent-foreground hover:bg-accent/90 rounded-xl h-11 shadow-lg shadow-accent/10"
           >
-            {loading ? "Signing in..." : "Sign in"}
+            {loading ? "Entering your vault..." : "Enter your vault"}
           </Button>
         </form>
         <p className="mt-6 text-center text-sm text-muted">
-          Don&apos;t have a vault?{" "}
+          Your story hasn&apos;t been preserved yet?{" "}
           <Link href="/signup" className="text-accent hover:underline font-medium">
-            Create one
+            Start here.
           </Link>
         </p>
       </CardContent>

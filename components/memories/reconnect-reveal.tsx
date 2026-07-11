@@ -75,7 +75,7 @@ export function ReconnectReveal() {
             size="lg"
           >
             <Search className="h-4 w-4 mr-2" />
-            Search your memories
+            Find something I've forgotten
           </Button>
         </div>
       )}

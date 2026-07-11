@@ -14,12 +14,12 @@ import {
 const links = [
   {
     href: "/dashboard",
-    label: "Vault",
+    label: "My Vault",
     icon: LayoutDashboard,
   },
   {
     href: "/dashboard/new",
-    label: "New Memory",
+    label: "Capture a Moment",
     icon: PlusCircle,
   },
   {
@@ -34,7 +34,7 @@ const links = [
   },
   {
     href: "/dashboard/identity",
-    label: "Identity",
+    label: "Who You're Becoming",
     icon: User,
   },
 ];

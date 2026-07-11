@@ -25,9 +25,10 @@ export default async function Home() {
             <span className="text-accent">you started.</span>
           </h1>
           <p className="mt-8 text-lg text-muted max-w-xl mx-auto leading-relaxed">
-            Passion fades. Evidence doesn&apos;t. Passion Vault preserves the
-            moments that define who you are — so when life makes you forget,
-            your own words bring you back.
+            Passion doesn&apos;t disappear overnight. It fades when we lose
+            touch with the version of ourselves who first believed. Passion
+            Vault preserves those moments — so when doubt arrives, your own
+            memories can bring you home.
           </p>
           <div className="mt-12 flex items-center justify-center gap-4">
             <Link
@@ -60,8 +61,8 @@ export default async function Home() {
                 Capture
               </h3>
               <p className="text-sm text-muted leading-relaxed">
-                When conviction is high, record what you believe. Voice, text,
-                images — freeze the moment before it fades.
+                Every journey has moments that change us. Capture them while
+                they are still vivid, before memory begins rewriting the story.
               </p>
             </div>
           </div>
@@ -76,8 +77,9 @@ export default async function Home() {
                 Preserve
               </h3>
               <p className="text-sm text-muted leading-relaxed">
-                Every entry becomes immutable evidence. Your vault holds the
-                truth of who you were — uneditable, unfiltered, real.
+                Memories change. Evidence doesn&apos;t. Every entry is
+                preserved exactly as you lived it, becoming proof of the person
+                you were.
               </p>
             </div>
           </div>
@@ -92,12 +94,20 @@ export default async function Home() {
                 Reconnect
               </h3>
               <p className="text-sm text-muted leading-relaxed">
-                When doubt creeps in, your vault remembers. AI surfaces the
-                moments that prove how far you&apos;ve come.
+                When life gets loud, your vault quietly reminds you. Not with
+                motivation. With evidence.
               </p>
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Deep truth */}
+      <section className="px-6 py-16 max-w-3xl mx-auto text-center">
+        <p className="text-muted/50 text-sm italic leading-relaxed max-w-md mx-auto">
+          The most important conversations you&apos;ll ever have are with the
+          versions of yourself that time tried to erase.
+        </p>
       </section>
 
       {/* Journey */}
@@ -107,11 +117,11 @@ export default async function Home() {
         </p>
         <div className="space-y-3">
           {[
-            { step: "Write a memory", desc: "What happened today that your future self should never forget?" },
-            { step: "AI reflects", desc: "Gemini extracts the emotional truth and identity behind your words." },
-            { step: "Evidence builds", desc: "Every memory becomes a permanent record of your journey." },
-            { step: "Identity emerges", desc: "Patterns reveal who you are, what you value, what you're becoming." },
-            { step: "Remember why", desc: "On hard days, your vault resurfaces the version of you who believed." },
+            { step: "Capture a moment", desc: "What happened today that your future self should never forget?" },
+            { step: "Find the truth beneath it", desc: "Gemini extracts the emotional truth and identity behind your words." },
+            { step: "Build your evidence", desc: "Every memory becomes a permanent, uneditable record of your journey." },
+            { step: "See who you're becoming", desc: "Patterns reveal what you value, what you've overcome, what still matters." },
+            { step: "Return to yourself", desc: "On hard days, your vault resurfaces the version of you who believed." },
           ].map((item, i) => (
             <div
               key={i}
@@ -136,7 +146,8 @@ export default async function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] bg-accent/3 rounded-full blur-[100px] pointer-events-none" />
         <div className="relative">
           <p className="text-xl text-muted mb-8 max-w-md mx-auto leading-relaxed">
-            Your future self is waiting for evidence of who you are right now.
+            One day you&apos;ll question yourself. Leave yourself something
+            worth finding.
           </p>
           <Link
             href="/signup"
@@ -149,8 +160,11 @@ export default async function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border-subtle px-6 py-8 text-center">
-        <p className="text-xs text-muted/50">
+      <footer className="border-t border-border-subtle px-6 py-10 text-center space-y-2">
+        <p className="text-xs text-muted/40">
+          Built for the days you forget who you are.
+        </p>
+        <p className="text-xs text-muted/30">
           Passion Vault — Remember why you started.
         </p>
       </footer>
